@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Error404 from './components/Error404';
-import Home from './components/Home';
 import Route from './components/Routing/Route';
+import Home from './components/Home';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App() {
   const [activeRoute, setActiveRoute] = useState();
@@ -20,10 +22,12 @@ function App() {
 
   return (
     <div>
+      <Header activeRoute={activeRoute}/>
       <Route path="/" currentRoute={currentRoute} setActive={setActiveRoute}>
         <Home />
       </Route>
       {displayErrorPage()}
+      <Footer />
     </div>
   );
 }
