@@ -4,6 +4,7 @@ import Route from './components/Routing/Route';
 import Home from './components/Home';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import FXRates from './components/FXRates';
 
 function App() {
   const [activeRoute, setActiveRoute] = useState();
@@ -25,6 +26,9 @@ function App() {
       <Header activeRoute={activeRoute}/>
       <Route path="/" currentRoute={currentRoute} setActive={setActiveRoute}>
         <Home />
+      </Route>
+      <Route path="/fx-rates" currentRoute={currentRoute} setActive={setActiveRoute}>
+        <FXRates />
       </Route>
       {displayErrorPage()}
       <Footer />
