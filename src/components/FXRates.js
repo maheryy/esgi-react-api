@@ -80,7 +80,7 @@ const FXRates = () => {
       <div className="">
         <button className="bg-green-600 hover:bg-green-800 text-white text-xl font-bold py-3 px-8 rounded-md mb-5" onClick={createRatesComponent}>Add</button>
       </div>
-      <div className="h-5/6 w-5/6 flex justify-around items-start">
+      <div className="h-5/6 w-5/6 flex justify-evenly items-start">
         {
           cardList.map((value) => (
             <CardRates
