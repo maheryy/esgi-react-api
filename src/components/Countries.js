@@ -53,8 +53,11 @@ const SearchBar = ({ applyFilter }) => {
     };
   }, [])
 
+
   useEffect(() => {
     applyFilter(searchValue);
+    
+    // eslint-disable-next-line
   }, [searchValue])
 
 

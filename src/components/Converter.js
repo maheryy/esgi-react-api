@@ -124,7 +124,7 @@ const CountryList = ({ currency }) => {
           {
             countries.map((item, key) => (
               <li key={key} className="flex justify-between items-center py-4 px-4 bg-gray-800 h-16 my-1 w-full min-w-max">
-                <img className="w-12 h-12 rounded-full mr-2" src="https://source.unsplash.com/50x50/?nature" />
+                <img className="w-12 h-12 rounded-full mr-2" src={item.flag} alt="Country flag"/>
                 <span className="text-white font-semibold">{item.name}</span>
               </li>
             ))
