@@ -6,7 +6,7 @@ const Route = ({ path, currentRoute, setActive, children }) => {
         if (currentRoute === path) {
             setActive(currentRoute);
         }
-        
+
         // eslint-disable-next-line
     }, [currentRoute, path])
 

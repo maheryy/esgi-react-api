@@ -1,76 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-const Countries = ({ countryList }) => {
-  const [countries, setCountries] = useState([]);
-
-  const applyFilter = filter => {
-    let res = filter
-      ? countryList.filter(el => el.name.toLowerCase().includes(filter.toLowerCase()))
-      : countryList;
-
-    setCountries(res);
-  }
-
-  return (
-    <div className="bg-gray-800 p-20 min-h-screen flex items-center flex-col">
-      <div className="w-9/12 mb-8 flex justify-center">
-        <SearchBar
-          applyFilter={applyFilter}
-        />
-      </div>
-      <div className="flex flex-col items-center w-9/12">
-        {
-          countries.map((item, key) => (
-            <CardCountry
-              key={key}
-              country={item}
-            />
-          ))
-        }
-      </div>
-
-    </div>
-  );
-}
-
-
-const SearchBar = ({ applyFilter }) => {
-  const [searchValue, setSearchValue] = useState('');
-
-
-  useEffect(() => {
-    const fixedSearchBar = e => {
-      let searchBar = document.getElementById('search-country');
-      if (searchBar.offsetTop + 45 < window.scrollY) {
-        searchBar.classList.add('fixed-search');
-      } else {
-        searchBar.classList.remove('fixed-search');
-      }
-    }
-    window.addEventListener('scroll', fixedSearchBar);
-    return () => {
-      window.removeEventListener('scroll', fixedSearchBar)
-    };
-  }, [])
-
-
-  useEffect(() => {
-    applyFilter(searchValue);
-    
-    // eslint-disable-next-line
-  }, [searchValue])
-
-
-  return (
-    <div id="search-country" className="w-full search-country shadow p-2 pr-3 flex w-full bg-white rounded-2xl">
-      <input className="w-full rounded p-2 px-4 outline-none" type="text" placeholder="Search a country..." value={searchValue} onChange={e => setSearchValue(e.target.value)} />
-    </div>
-  )
-}
-
-
-const CardCountry = ({ country }) => {
-
+const CountryCard = ({ country }) => {
   const prettyNumber = number => number ? number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ') : null;
 
   return (
@@ -126,4 +56,5 @@ const CardCountry = ({ country }) => {
     </div>
   );
 }
-export default Countries;
+
+export default CountryCard;

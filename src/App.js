@@ -28,7 +28,6 @@ function App() {
     };
   }, [])
 
-
   const displayErrorPage = () => activeRoute !== currentRoute ? <Error404 /> : null;
 
   return (
@@ -38,7 +37,7 @@ function App() {
         <Home />
       </Route>
       <Route path="/fx-rates" currentRoute={currentRoute} setActive={setActiveRoute}>
-        <FXRates currencyList={currencyList}/>
+        <FXRates currencyList={currencyList} />
       </Route>
       <Route path="/converter" currentRoute={currentRoute} setActive={setActiveRoute}>
         <Converter currencyList={currencyList} />

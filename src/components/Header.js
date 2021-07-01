@@ -1,25 +1,26 @@
 import React from 'react';
 import Link from './Routing/Link';
 
+const links = [
+  {
+    label: 'Home',
+    route: '/'
+  },
+  {
+    label: 'Converter',
+    route: '/converter'
+  },
+  {
+    label: 'FX Rates',
+    route: '/fx-rates'
+  },
+  {
+    label: 'Countries',
+    route: '/countries'
+  },
+];
+
 const Header = ({ activeRoute }) => {
-  const links = [
-    {
-      label: 'Home',
-      route: '/'
-    },
-    {
-      label: 'Converter',
-      route: '/converter'
-    },
-    {
-      label: 'FX Rates',
-      route: '/fx-rates'
-    },
-    {
-      label: 'Countries',
-      route: '/countries'
-    },
-  ];
   return (
     <nav className="bg-green-700">
       <div className="px-2 sm:px-6 lg:px-8">
