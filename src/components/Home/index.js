@@ -9,7 +9,7 @@ const Home = () => {
         This project aims to build a single page app with API calls using React and its components.
       </p>
       <p className="text-gray-400 mt-2 text-lg">
-        The converter app converts in any currency you want and get related countries based on the given currency.
+        The converter app converts in any currency and get related countries based on the given currency.
       </p>
       <p className="text-gray-400 mt-5 text-lg">
         The main API resources used in this project are the following
@@ -56,7 +56,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <Link className="py-3 px-8 mt-14 self-center bg-green-600 rounded-lg font-bold text-white text-xl mt-5 hover:bg-green-700" href='/converter'>
+      <Link className="py-3 px-8 mt-14 bg-green-600 rounded-lg font-bold text-white text-xl mt-5 hover:bg-green-700" href='/converter'>
         Try it now! 🚀
       </Link>
     </div>

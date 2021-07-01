@@ -15,7 +15,7 @@ const RateCard = ({ reference, currencyList, deleteComponent }) => {
 
 
   return (
-    <div className="flex flex-col bg-gray-900 items-center border border-gray-900 rounded-lg px-12 pb-2 pt-6 shadow-lg relative mr-3 ">
+    <div className="flex flex-col bg-gray-900 items-center border border-gray-900 rounded-lg px-12 pb-2 pt-6 shadow-lg relative mr-3 max-w-md">
       {
         !isFirstOne &&
         (
@@ -28,7 +28,7 @@ const RateCard = ({ reference, currencyList, deleteComponent }) => {
           {currencyList.map(((item, key) => <option className="text-center" key={key} value={item.code}>{item.code} - {item.name}</option>))}
         </select>
       </div>
-      <hr className="bg-white w-full border my-4" />
+      <hr className="w-full border my-4"/>
       {
         currencyBasis && <RateList data={data} currencyList={currencyList} />
       }

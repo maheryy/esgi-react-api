@@ -11,7 +11,7 @@ import { fetchCurrencyList } from './apis/exchangerate';
 import { fetchAllCountries } from './apis/restcountries';
 
 function App() {
-  const [activeRoute, setActiveRoute] = useState();
+  const [activeRoute, setActiveRoute] = useState('');
   const [currentRoute, setCurrentRoute] = useState(window.location.pathname);
   const [currencyList, setCurrencyList] = useState([]);
   const [countryList, setCountryList] = useState([]);

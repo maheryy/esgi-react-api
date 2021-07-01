@@ -5,7 +5,7 @@ const FXRates = ({ currencyList }) => {
   const [cardList, setCardList] = useState([1]);
 
   const createRatesComponent = () => {
-    if (cardList.length < 4) {
+    if (cardList.length < 3) {
       setCardList([...cardList, cardList[cardList.length - 1] + 1])
     }
   };
@@ -19,7 +19,7 @@ const FXRates = ({ currencyList }) => {
   return (
     <div className="bg-gray-800 min-h-screen flex flex-col justify-center items-center">
       <div className="">
-        <button className="bg-green-600 hover:bg-green-800 text-white text-xl font-bold py-3 px-8 rounded-md mb-5" onClick={createRatesComponent}>Add</button>
+        <button className="bg-green-600 hover:bg-green-800 text-white text-xl font-bold py-3 px-8 rounded-md mb-5" onClick={createRatesComponent}>Add a list</button>
       </div>
       <div className="h-5/6 w-5/6 flex justify-evenly items-start">
         {

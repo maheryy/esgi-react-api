@@ -13,7 +13,7 @@ const Converter = ({ currencyList }) => {
   }, [currencyFrom, currencyTo])
 
   return (
-    <div className="bg-gray-800 min-h-screen flex flex-col justify-center items-center py-8">
+    <div className="bg-gray-800 min-h-screen max-w-content flex flex-col justify-center items-center py-8">
       <div className="bg-gray-900 border border-gray-900 rounded-xl px-20 py-8 shadow-xl relative mr-3">
         <ConvertBox
           currencyFrom={currencyFrom}
@@ -26,12 +26,8 @@ const Converter = ({ currencyList }) => {
         />
       </div>
       <div className="flex items-start justify-center w-10/12 mt-4 rounded-xl px-14 py-6  relative mr-3 ">
-        <CountryList
-          currency={currencyTo}
-        />
-        <CountryList
-          currency={currencyFrom}
-        />
+        <CountryList currency={currencyFrom}/>
+        <CountryList currency={currencyTo}/>
       </div>
     </div>
   );

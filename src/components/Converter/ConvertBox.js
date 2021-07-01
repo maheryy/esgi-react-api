@@ -41,11 +41,11 @@ const ConvertBox = ({ currencyFrom, setCurrencyFrom, currencyTo, setCurrencyTo, 
         />
         <button className="bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold self-end px-8 mx-2 h-12 rounded-full" onClick={switchCurrencies}>Switch</button>
       </div>
-      <div className="flex justify-around mt-8">
+      <div className="flex justify-center mt-8 w-10/12">
         <div className="flex flex-col">
           <div className="flex">
-            <span className="text-white text-3xl px-2">$</span>
-            <input className=" h-10 px-3 text-lg text-gray-700 bg-gray-200 placeholder-gray-600 border rounded-lg focus:shadow-outline" type="number" placeholder="Amount" onChange={e => { setAmount(e.target.value) }} value={amount} />
+            {/* <span className="text-white text-3xl px-2">$</span> */}
+            <input className="amount-convert h-10 px-3 text-lg text-gray-700 bg-gray-200 placeholder-gray-600 border rounded-lg focus:shadow-outline" type="number" placeholder="Amount" onChange={e => { setAmount(e.target.value) }} value={amount} />
           </div>
           <p className="px-2">
             <span className="text-xs font-light text-white ml-8">1 {currencyFrom} = {rate} {currencyTo}</span>

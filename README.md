@@ -12,3 +12,9 @@ Run with :
 ```bash
 npm run start
 ```
+
+Build with :
+
+```bash
+npm run build
+```

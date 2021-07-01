@@ -119,3 +119,12 @@ tr th:first-child {
   top: 5px;
   width: 50%;
 }
+
+.select-currency {
+  max-width: 350px;
+  min-width: 100px;
+}
+
+.amount-convert {
+  width: 250px;
+}
