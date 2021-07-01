@@ -4,20 +4,20 @@ import Link from './Routing/Link';
 const Header = ({ activeRoute }) => {
   const links = [
     {
-      route: '/',
-      label: 'Home'
+      label: 'Home',
+      route: '/'
     },
     {
-      route: '/fx-rates',
-      label: 'FX Rates'
+      label: 'Converter',
+      route: '/converter'
     },
     {
-      route: '/countries',
-      label: 'Countries'
+      label: 'FX Rates',
+      route: '/fx-rates'
     },
     {
-      route: '/convert',
-      label: 'Convert'
+      label: 'Countries',
+      route: '/countries'
     },
   ];
   return (
