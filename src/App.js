@@ -11,7 +11,7 @@ import { fetchCurrencyList } from './apis/exchangerate';
 import { fetchAllCountries } from './apis/restcountries';
 
 function App() {
-  const [activeRoute, setActiveRoute] = useState();
+  const [activeRoute, setActiveRoute] = useState('');
   const [currentRoute, setCurrentRoute] = useState(window.location.pathname);
   const [currencyList, setCurrencyList] = useState([]);
   const [countryList, setCountryList] = useState([]);
@@ -28,7 +28,6 @@ function App() {
     };
   }, [])
 
-
   const displayErrorPage = () => activeRoute !== currentRoute ? <Error404 /> : null;
 
   return (
@@ -38,7 +37,7 @@ function App() {
         <Home />
       </Route>
       <Route path="/fx-rates" currentRoute={currentRoute} setActive={setActiveRoute}>
-        <FXRates currencyList={currencyList}/>
+        <FXRates currencyList={currencyList} />
       </Route>
       <Route path="/converter" currentRoute={currentRoute} setActive={setActiveRoute}>
         <Converter currencyList={currencyList} />
