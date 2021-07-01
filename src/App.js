@@ -7,16 +7,24 @@ import Footer from './components/Footer';
 import FXRates from './components/FXRates';
 import Converter from './components/Converter';
 import Countries from './components/Countries';
+import { fetchCurrencyList } from './apis/exchangerate';
+import { fetchAllCountries } from './apis/restcountries';
 
 function App() {
   const [activeRoute, setActiveRoute] = useState();
   const [currentRoute, setCurrentRoute] = useState(window.location.pathname);
+  const [currencyList, setCurrencyList] = useState([]);
+  const [countryList, setCountryList] = useState([]);
 
   useEffect(() => {
     const onLocationChange = () => setCurrentRoute(window.location.pathname);
     window.addEventListener('popstate', onLocationChange);
-    return () => { 
-      window.removeEventListener('popstate', onLocationChange) 
+
+    fetchCurrencyList().then(data => setCurrencyList(data));
+    fetchAllCountries().then(data => setCountryList(data));
+
+    return () => {
+      window.removeEventListener('popstate', onLocationChange)
     };
   }, [])
 
@@ -25,23 +33,22 @@ function App() {
 
   return (
     <div>
-      <Header activeRoute={activeRoute}/>
+      <Header activeRoute={activeRoute} />
       <Route path="/" currentRoute={currentRoute} setActive={setActiveRoute}>
         <Home />
       </Route>
       <Route path="/fx-rates" currentRoute={currentRoute} setActive={setActiveRoute}>
-        <FXRates />
+        <FXRates currencyList={currencyList}/>
       </Route>
       <Route path="/converter" currentRoute={currentRoute} setActive={setActiveRoute}>
-        <Converter />
+        <Converter currencyList={currencyList} />
       </Route>
       <Route path="/countries" currentRoute={currentRoute} setActive={setActiveRoute}>
-        <Countries />
+        <Countries countryList={countryList} />
       </Route>
       {displayErrorPage()}
       <Footer />
     </div>
   );
 }
-
 export default App;

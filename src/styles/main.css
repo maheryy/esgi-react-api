@@ -110,3 +110,14 @@ tr th:first-child {
   min-width: 700px;
   max-width: 900px;
 }
+
+.country-flag {
+  width: 290px;
+  height: auto;
+}
+
+.fixed-search {
+  position: fixed;
+  top: 5px;
+  width: 50%;
+}

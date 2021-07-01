@@ -1,95 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-const fakeCountries = [
-  {
-    name: 'France',
-    alpha2Code: 'FRA',
-    alpha3Code: 'FR',
-    region: 'Europe',
-    subregion: 'Central europe',
-    capital: 'Paris',
-    topLevelDomain: '.fr',
-    population: 4561231,
-    denonym: 'French'
-  },
-  {
-    name: 'USA',
-    alpha2Code: 'FRA',
-    alpha3Code: 'FR',
-    region: 'Europe',
-    subregion: 'Central europe',
-    capital: 'Paris',
-    topLevelDomain: '.fr',
-    population: 4561231,
-    denonym: 'French'
-  },
-  {
-    name: 'Canada',
-    alpha2Code: 'FRA',
-    alpha3Code: 'FR',
-    region: 'Europe',
-    subregion: 'Central europe',
-    capital: 'Paris',
-    topLevelDomain: '.fr',
-    population: 4561231,
-    denonym: 'French'
-  },
-  {
-    name: 'Corée du sud',
-    alpha2Code: 'FRA',
-    alpha3Code: 'FR',
-    region: 'Europe',
-    subregion: 'Central europe',
-    capital: 'Paris',
-    topLevelDomain: '.fr',
-    population: 4561231,
-    denonym: 'French'
-  },
-  {
-    name: 'Japon',
-    alpha2Code: 'FRA',
-    alpha3Code: 'FR',
-    region: 'Europe',
-    subregion: 'Central europe',
-    capital: 'Paris',
-    topLevelDomain: '.fr',
-    population: 4561231,
-    denonym: 'French'
-  },
-  {
-    name: 'Allemagne',
-    alpha2Code: 'FRA',
-    alpha3Code: 'FR',
-    region: 'Europe',
-    subregion: 'Central europe',
-    capital: 'Paris',
-    topLevelDomain: '.fr',
-    population: 4561231,
-    denonym: 'French'
-  },
-  {
-    name: 'Belgique',
-    alpha2Code: 'FRA',
-    alpha3Code: 'FR',
-    region: 'Europe',
-    subregion: 'Central europe',
-    capital: 'Paris',
-    topLevelDomain: '.fr',
-    population: 4561231,
-    denonym: 'French'
-  },
-];
-
-
-const Countries = () => {
-
-  const fullList = fakeCountries;
-  const [countries, setCountries] = useState(fullList);
+const Countries = ({ countryList }) => {
+  const [countries, setCountries] = useState([]);
 
   const applyFilter = filter => {
     let res = filter
-      ? fullList.filter(el => el.name.toLowerCase().includes(filter.toLowerCase()))
-      : fullList;
+      ? countryList.filter(el => el.name.toLowerCase().includes(filter.toLowerCase()))
+      : countryList;
 
     setCountries(res);
   }
@@ -120,12 +37,29 @@ const Countries = () => {
 const SearchBar = ({ applyFilter }) => {
   const [searchValue, setSearchValue] = useState('');
 
+
+  useEffect(() => {
+    const fixedSearchBar = e => {
+      let searchBar = document.getElementById('search-country');
+      if (searchBar.offsetTop + 45 < window.scrollY) {
+        searchBar.classList.add('fixed-search');
+      } else {
+        searchBar.classList.remove('fixed-search');
+      }
+    }
+    window.addEventListener('scroll', fixedSearchBar);
+    return () => {
+      window.removeEventListener('scroll', fixedSearchBar)
+    };
+  }, [])
+
   useEffect(() => {
     applyFilter(searchValue);
   }, [searchValue])
 
+
   return (
-    <div className="w-full search-country shadow p-2 pr-3 flex w-full bg-white rounded-2xl">
+    <div id="search-country" className="w-full search-country shadow p-2 pr-3 flex w-full bg-white rounded-2xl">
       <input className="w-full rounded p-2 px-4 outline-none" type="text" placeholder="Search a country..." value={searchValue} onChange={e => setSearchValue(e.target.value)} />
     </div>
   )
@@ -138,7 +72,7 @@ const CardCountry = ({ country }) => {
 
   return (
     <div className="card-country bg-white h-48 rounded shadow-md flex text-grey-darkest my-2 w-full">
-      <img className="w-1/2 h-full rounded-l-sm" src="https://bit.ly/2EApSiC" alt="Room Image" />
+      <img className="country-flag rounded-l-sm" src={country.flag} alt="Country flag" />
       <div className="w-full flex flex-col p-4">
         <h1 className="font-light mb-1 text-grey-darkest text-3xl">{country.name}</h1>
         <span className="text-lg mb-4">
@@ -150,37 +84,37 @@ const CardCountry = ({ country }) => {
               <span className="text-base text-gray-600 mr-2">Capital :
               </span>
               <span className="text-lg">
-               {country.capital}
+                {country.capital}
               </span>
             </p>
             <p className="text-lg">
-            <span className="text-base text-gray-600 mr-2">Denonym :
+              <span className="text-base text-gray-600 mr-2">Demonym :
               </span>
               <span className="text-lg">
-              {country.denonym}
+                {country.demonym}
               </span>
             </p>
             <p className="text-lg ">
-            <span className="text-base text-gray-600 mr-2">Population :
+              <span className="text-base text-gray-600 mr-2">Population :
               </span>
               <span className="text-lg">
-              {prettyNumber(country.population)}
+                {prettyNumber(country.population)}
               </span>
             </p>
           </div>
           <div className="min-w-max">
             <p className="text-lg">
-            <span className="text-base text-gray-600 mr-2">ISO Codes :
+              <span className="text-base text-gray-600 mr-2">ISO Codes :
               </span>
               <span className="text-lg">
-              {country.alpha2Code} / {country.alpha3Code}
+                {country.alpha2Code} / {country.alpha3Code}
               </span>
             </p>
             <p className="text-lg">
-            <span className="text-base text-gray-600 mr-2">Top-level domain
+              <span className="text-base text-gray-600 mr-2">Top-level domain :
               </span>
               <span className="text-lg">
-              {country.topLevelDomain}
+                {country.topLevelDomain}
               </span>
             </p>
           </div>
