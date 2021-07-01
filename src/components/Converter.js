@@ -95,6 +95,16 @@ const ConvertBox = ({ currencyFrom, setCurrencyFrom, currencyTo, setCurrencyTo }
     setCurrencyFrom(to);
   }
 
+  const prettyNumber = number =>
+    number
+      ? number
+        .toFixed(2)
+        .toString()
+        .replace('.', ',')
+        .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ')
+      : 0
+
+
   useEffect(() => {
     setResult(amount * rate);
   }, [amount])
@@ -130,7 +140,7 @@ const ConvertBox = ({ currencyFrom, setCurrencyFrom, currencyTo, setCurrencyTo }
       </div>
       <div className="shadow-inner bg-gray-800 flex-col py-6 mt-8 w-11/12">
         <p className="w-full text-center">
-          <span className="text-xl font-semibold text-white">{result}</span>
+          <span className="text-xl font-semibold text-white">{prettyNumber(result)}</span>
           <span className="text-xl font-semibold text-white ml-2">{currencyTo}</span>
         </p>
       </div>

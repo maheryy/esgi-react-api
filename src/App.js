@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import FXRates from './components/FXRates';
 import Converter from './components/Converter';
+import Countries from './components/Countries';
 
 function App() {
   const [activeRoute, setActiveRoute] = useState();
@@ -33,6 +34,9 @@ function App() {
       </Route>
       <Route path="/converter" currentRoute={currentRoute} setActive={setActiveRoute}>
         <Converter />
+      </Route>
+      <Route path="/countries" currentRoute={currentRoute} setActive={setActiveRoute}>
+        <Countries />
       </Route>
       {displayErrorPage()}
       <Footer />
