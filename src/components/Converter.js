@@ -1,42 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { fetchRate } from '../apis/exchangerate';
+import { fetchCountriesByCurrency } from '../apis/restcountries';
 
-const fakeCurrency = [
-  {
-    code: 'USD',
-    name: 'United States Dollar'
-  },
-  {
-    code: 'EUR',
-    name: 'Euro'
-  },
-  {
-    code: 'GBP',
-    name: 'British Pound'
-  },
-  {
-    code: 'CAD',
-    name: 'Canadian Dollar'
-  },
-];
-
-const fakeCountry = [
-  {
-    name: 'France'
-  },
-  {
-    name: 'Suisse'
-  },
-  {
-    name: 'Angleterre'
-  },
-  {
-    name: 'Belgique'
-  },
-];
-
-const Converter = () => {
+const Converter = ({ currencyList }) => {
   const [currencyTo, setCurrencyTo] = useState('EUR');
   const [currencyFrom, setCurrencyFrom] = useState('USD');
+  const [rate, setRate] = useState(1);
+
+  useEffect(() => {
+    fetchRate(currencyFrom, currencyTo).then(data => setRate(data));
+  }, [currencyFrom, currencyTo])
 
   return (
     <div className="bg-gray-800 min-h-screen flex flex-col justify-center items-center py-8">
@@ -46,9 +19,12 @@ const Converter = () => {
           setCurrencyFrom={setCurrencyFrom}
           currencyTo={currencyTo}
           setCurrencyTo={setCurrencyTo}
+          currencyList={currencyList}
+          rate={rate}
+          setRate={setRate}
         />
       </div>
-      <div className="flex items-center w-10/12 mt-4 rounded-xl px-14 py-6  relative mr-3 ">
+      <div className="flex items-start justify-center w-10/12 mt-4 rounded-xl px-14 py-6  relative mr-3 ">
         <CountryList
           currency={currencyTo}
         />
@@ -61,33 +37,9 @@ const Converter = () => {
 }
 
 
-const ConvertBox = ({ currencyFrom, setCurrencyFrom, currencyTo, setCurrencyTo }) => {
-
-  const [currencyList, setCurrencyList] = useState(fakeCurrency);
-
-  const [rate, setRate] = useState(1.00);
+const ConvertBox = ({ currencyFrom, setCurrencyFrom, currencyTo, setCurrencyTo, currencyList, rate }) => {
   const [amount, setAmount] = useState(1.00);
   const [result, setResult] = useState(1.00);
-
-  const convert = () => {
-    setResult(amount * rate);
-  }
-
-  const getFXRate = () => {
-    const fx_rate = 1;
-
-    setRate(fx_rate);
-  }
-
-  const updateCurrencyTo = e => {
-    setCurrencyTo(e.target.value);
-    getFXRate();
-  }
-
-  const updateCurrencyFrom = e => {
-    setCurrencyFrom(e.target.value);
-    getFXRate();
-  }
 
   const switchCurrencies = () => {
     let to = currencyTo;
@@ -104,10 +56,9 @@ const ConvertBox = ({ currencyFrom, setCurrencyFrom, currencyTo, setCurrencyTo }
         .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ')
       : 0
 
-
   useEffect(() => {
     setResult(amount * rate);
-  }, [amount])
+  }, [amount, rate])
 
   return (
     <div className="w-full h-full flex flex-col items-center">
@@ -116,13 +67,13 @@ const ConvertBox = ({ currencyFrom, setCurrencyFrom, currencyTo, setCurrencyTo }
           name='From'
           currencyList={currencyList}
           currency={currencyFrom}
-          setCurrency={updateCurrencyFrom}
+          setCurrency={setCurrencyFrom}
         />
         <SelectCurrency
           name='To'
           currencyList={currencyList}
           currency={currencyTo}
-          setCurrency={updateCurrencyTo}
+          setCurrency={setCurrencyTo}
         />
         <button className="bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold self-end px-8 mx-2 h-12 rounded-full" onClick={switchCurrencies}>Switch</button>
       </div>
@@ -136,7 +87,7 @@ const ConvertBox = ({ currencyFrom, setCurrencyFrom, currencyTo, setCurrencyTo }
             <span className="text-xs font-light text-white ml-8">1 {currencyFrom} = {rate} {currencyTo}</span>
           </p>
         </div>
-        <button className="bg-green-500 hover:bg-green-600 text-white text-lg font-bold px-8 mx-4 h-10 rounded-lg" onClick={switchCurrencies}>Convert</button>
+        {/* <button className="bg-green-500 hover:bg-green-600 text-white text-lg font-bold px-8 mx-4 h-10 rounded-lg" onClick={switchCurrencies}>Convert</button> */}
       </div>
       <div className="shadow-inner bg-gray-800 flex-col py-6 mt-8 w-11/12">
         <p className="w-full text-center">
@@ -151,14 +102,17 @@ const ConvertBox = ({ currencyFrom, setCurrencyFrom, currencyTo, setCurrencyTo }
 const SelectCurrency = ({ name, currencyList, currency, setCurrency }) => (
   <div className="flex flex-col items-start mx-2">
     <label className="text-white text-lg font-semibold" htmlFor={"currency-" + name}>{name}</label>
-    <select id={"currency-" + name} className=" w-full bg-gray-200 text-gray border border-gray-600 hover:border-gray-400 pl-4 py-2 pr-8 rounded-lg focus:outline-none focus:shadow-outline h-12 text-lg font-semibold text-center" onChange={setCurrency} value={currency}>
+    <select id={"currency-" + name} className="w-full bg-gray-200 text-gray border border-gray-600 hover:border-gray-400 pl-4 py-2 pr-8 rounded-lg focus:outline-none focus:shadow-outline h-12 text-lg font-semibold text-center" onChange={e => setCurrency(e.target.value)} value={currency}>
       {currencyList.map(((item, key) => <option className="text-center" key={key} value={item.code}>{item.code} - {item.name}</option>))}
     </select>
   </div>
 )
 
 const CountryList = ({ currency }) => {
-  const countries = fakeCountry;
+  const [countries, setCountries] = useState([]);
+  useEffect(() => {
+    fetchCountriesByCurrency(currency).then(data => setCountries(data));
+  }, [currency])
 
   return (
     <div className="rounded-xl px-12 py-8 mr-3 w-8/12 min-w-min">

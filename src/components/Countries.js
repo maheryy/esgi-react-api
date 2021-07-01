@@ -1,23 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { fetchAllCountries } from '../apis/restcountries';
 
-const Countries = () => {
+const Countries = ({ countryList }) => {
   const [countries, setCountries] = useState([]);
-  const [fullCountries, setFullCountries] = useState([]);
-
-  useEffect(() => {
-    fetchAllCountries()
-      .then(data => {
-        setFullCountries(data);
-        setCountries(data);
-      });
-  }, []);
-
 
   const applyFilter = filter => {
     let res = filter
-      ? fullCountries.filter(el => el.name.toLowerCase().includes(filter.toLowerCase()))
-      : fullCountries;
+      ? countryList.filter(el => el.name.toLowerCase().includes(filter.toLowerCase()))
+      : countryList;
 
     setCountries(res);
   }

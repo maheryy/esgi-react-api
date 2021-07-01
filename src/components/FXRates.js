@@ -1,67 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { fetchAllRates } from '../apis/exchangerate';
 
-const fakeData = [
-  {
-    country: 'United States',
-    currency: 'USD',
-    currency_full_name: 'United States Dollars',
-    rate: '1.520',
-  },
-  {
-    country: 'United States',
-    currency: 'USD',
-    currency_full_name: 'United States Dollars',
-    rate: '1.520',
-  },
-  {
-    country: 'United States',
-    currency: 'USD',
-    currency_full_name: 'United States Dollars',
-    rate: '1.520',
-  },
-  {
-    country: 'United States',
-    currency: 'USD',
-    currency_full_name: 'United States Dollars',
-    rate: '1.520',
-  },
-  {
-    country: 'United States',
-    currency: 'USD',
-    currency_full_name: 'United States Dollars',
-    rate: '1.520',
-  },
-  {
-    country: 'United States',
-    currency: 'USD',
-    currency_full_name: 'United States Dollars',
-    rate: '1.520',
-  },
-];
-
-const fakeCurrency = [
-  {
-    code: 'USD',
-    name: 'United States Dollar'
-  },
-  {
-    code: 'EUR',
-    name: 'Euro'
-  },
-  {
-    code: 'GBP',
-    name: 'British Pound'
-  },
-  {
-    code: 'CAD',
-    name: 'Canadian Dollar'
-  },
-];
-
-const FXRates = () => {
+const FXRates = ({ currencyList }) => {
   const [cardList, setCardList] = useState([1]);
-  const [currencyList, setCurrencyList] = useState(fakeCurrency);
-
 
   const createRatesComponent = () => {
     if (cardList.length < 4) {
@@ -100,14 +41,14 @@ const FXRates = () => {
 const CardRates = ({ reference, currencyList, deleteComponent }) => {
   const isFirstOne = reference === 1;
   const [currencyBasis, setCurrencyBasis] = useState(isFirstOne ? 'EUR' : '');
+  const [data, setData] = useState([]);
 
-  const data = fakeData;
+  useEffect(() => {
+    if (currencyBasis) {
+      fetchAllRates(currencyBasis).then(res => setData(res));
+    }
+  }, [currencyBasis])
 
-
-  const updateBasis = e => {
-    console.log(e.target.value);
-    setCurrencyBasis(e.target.value);
-  };
 
   return (
     <div className="flex flex-col bg-gray-900 items-center border border-gray-900 rounded-lg px-12 pb-2 pt-6 shadow-lg relative mr-3 ">
@@ -118,48 +59,59 @@ const CardRates = ({ reference, currencyList, deleteComponent }) => {
         )
       }
       <div className="w-full mb-4">
-        <select id={'currency-basis' + reference} className="block appearance-none w-full bg-gray-900 text-white border border-gray-600 hover:border-gray-400 px-4 py-2 pr-8 rounded-lg focus:outline-none focus:shadow-outline h-14 text-xl font-semibold text-center" onChange={updateBasis} value={currencyBasis}>
+        <select id={'currency-basis' + reference} className="block appearance-none w-full bg-gray-900 text-white border border-gray-600 hover:border-gray-400 px-4 py-2 pr-8 rounded-lg focus:outline-none focus:shadow-outline h-14 text-xl font-semibold text-center" onChange={e => { setCurrencyBasis(e.target.value) }} value={currencyBasis}>
           {!isFirstOne && <option value=""></option>}
           {currencyList.map(((item, key) => <option className="text-center" key={key} value={item.code}>{item.code} - {item.name}</option>))}
         </select>
       </div>
       <hr className="bg-white w-full border my-4" />
       {
-        currencyBasis &&
-        (
-          <div className="data-scroll overflow-y-scroll">
-            <table className="table text-gray-400 border-separate space-y-6 text-lg">
-              <thead className="bg-gray-800 text-gray-300">
-                <tr className="text-xl">
-                  <th className="py-3 px-8 text-left">Currency</th>
-                  <th className="py-3 px-8">Rate</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  data.map((item, key) => (
-                    <tr key={key} className="bg-gray-800 text-gray-300">
-                      <td className="py-3 px-8">
-                        <div className="flex align-items-center">
-                          <div className="mr-6">
-                            <div className="">{item.currency}</div>
-                            <div className="text-gray-500">{item.currency_full_name}</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="py-3 px-8 text-center font-semibold">{item.rate}</td>
-                    </tr>
-                  ))
-                }
-              </tbody>
-            </table>
-          </div>
-        )
+        currencyBasis && <ListRates data={data} currencyList={currencyList} />
       }
-
     </div>
   );
 };
+
+const ListRates = ({ data, currencyList }) => {
+  const findCurrencyFullName = (code) => {
+    for (let i = 0; i < currencyList.length; i++) {
+      if (currencyList[i].code === code) {
+        return currencyList[i].name;
+      }
+    }
+    return null;
+  }
+
+  return (
+    <div className="data-scroll overflow-y-scroll">
+      <table className="table text-gray-400 border-separate space-y-6 text-lg">
+        <thead className="bg-gray-800 text-gray-300">
+          <tr className="text-xl">
+            <th className="py-3 px-8 text-left">Currency</th>
+            <th className="py-3 px-8">Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            data.map((item, key) => (
+              <tr key={key} className="bg-gray-800 text-gray-300">
+                <td className="py-3 px-8">
+                  <div className="flex align-items-center">
+                    <div className="mr-6">
+                      <div className="">{item.code}</div>
+                      <div className="text-gray-500">{findCurrencyFullName(item.code)}</div>
+                    </div>
+                  </div>
+                </td>
+                <td className="py-3 px-8 text-center font-semibold">{item.rate}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  );
+}
 
 
 export default FXRates;
